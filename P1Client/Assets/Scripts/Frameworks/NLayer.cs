@@ -37,7 +37,7 @@ namespace NodapParty
 			return false;
 		}
 
-        public virtual void ReceiveObject(Enum value, NObject obj) {
+        public virtual void ReceiveObject(Enum value, NObject obj, Action callback = null) {
 
         }
 
@@ -55,12 +55,12 @@ namespace NodapParty
 
         public override void Show() {
             base.Show();
-            //GameManager.Instance.CheckTopLayer();
+            GameManager.Instance.CheckTopLayer();
         }
 
         public override void Hide() {
             base.Hide();
-            //GameManager.Instance.CheckTopLayer();
+            GameManager.Instance.CheckTopLayer();
         }
 
         protected void UpdateDepth() {

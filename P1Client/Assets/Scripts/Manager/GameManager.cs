@@ -7,7 +7,7 @@ namespace NodapParty
 {
     public class GameManager : SingletonGameObject<GameManager>
     {
-// 앱 포커스 상태에 따른 메서드.
+        // 앱 포커스 상태에 따른 메서드.
         public delegate void OnApplicationFocusEventHandler(bool hasFocus);
         // 최상단 Layer 변경 메서드.
         public delegate void OnChangeTopLayerHandler(NLayer layer);
@@ -53,43 +53,6 @@ namespace NodapParty
         }
 
     #endregion Override.
-
-        // 앱이 포커싱 되었을 때 hasFocus is true.
-        private void OnApplicationFocus(bool hasFocus)
-        {
-            if (!hasFocus)
-            {
-                m_PauseTime = Time.realtimeSinceStartup;
-            }
-            else
-            {
-        #if UNITY_EDITOR
-                m_PlayTime -= (Time.realtimeSinceStartup - m_PauseTime);
-        #else
-                m_Tick += (Time.realtimeSinceStartup - m_PauseTime);
-        #endif
-            }
-
-            if (OnApplicationFocusEvent == null)
-                return;
-
-            OnApplicationFocusEvent(hasFocus);
-        }
-
-        private void Update()
-        {
-            m_Tick += Time.deltaTime;
-            m_PlayTime += Time.deltaTime;
-
-            if (!Input.GetKeyDown(KeyCode.Escape))
-                return;
-
-            var layer = (m_EscapePopupQueue.Count == 0) ? GetTopLayer() : m_EscapePopupQueue.Peek();
-			if (layer.IsEscapeEvent)
-            {
-                layer.OnEscapeEvent();
-            }
-        }
 
         /// <summary>
         /// 초기화.
@@ -339,13 +302,26 @@ namespace NodapParty
         /// <summary>
         /// 해당 Key의 Layer에 오브젝트 전달.
         /// </summary>
-        public void SendObject<T>(Enum notify, NLayer obj) where T : NLayer
+        public void SendObject<T>(Enum notify, NObject obj) where T : NObject
         {
             var key = typeof(T);
             NLayer layer;
             if (m_Dic.TryGetValue(key, out layer))
             {
                 layer.ReceiveObject(notify, obj);
+            }
+        }
+
+        /// <summary>
+        /// 해당 Key의 Layer에 오브젝트 전달.
+        /// </summary>
+        public void SendObjectAndCallBack<T>(Enum notify, NObject obj, Action callback) where T : NObject
+        {
+            var key = typeof(T);
+            NLayer layer;
+            if (m_Dic.TryGetValue(key, out layer))
+            {
+                layer.ReceiveObject(notify, obj, callback);
             }
         }
 
@@ -432,22 +408,6 @@ namespace NodapParty
 				
 			return m_Dic[type].CacheGameObject.activeSelf;
 		}
-
-        /// <summary>
-        /// Tick 초기화.
-        /// </summary>
-        public void ClearTick()
-        {
-            m_Tick = 0.0f;
-        }
-
-        /// <summary>
-        /// 플레이 타임 초기화.
-        /// </summary>
-        public void ClearPlayTime()
-        {
-            m_PlayTime = 0.0f;
-        }
 
         /// <summary>
         /// 최상단 레이어 확인.
@@ -606,22 +566,6 @@ namespace NodapParty
                 return layer.GetComponent<T>();
             }
             return default(T);
-        }
-
-        /// <summary>
-        /// 현재 Tick 반환.
-        /// </summary>
-        public float GetTick()
-        {
-            return m_Tick;
-        }
-
-        /// <summary>
-        /// 플레이 타임 반환.
-        /// </summary>
-        public float GetPlayTime()
-        {
-            return m_PlayTime;
-        }    
+        }  
     }
 }
