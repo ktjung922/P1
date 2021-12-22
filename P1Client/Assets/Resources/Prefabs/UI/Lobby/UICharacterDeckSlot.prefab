@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7269773379303144189}
   - component: {fileID: 6194571052539516217}
   - component: {fileID: 3312127746425597554}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 1824405780316539069}
   - component: {fileID: 8030182452547156520}
   - component: {fileID: 25514508295548889}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 5974215944300770304}
   - component: {fileID: 3205224939628594509}
   - component: {fileID: 2908131694033782497}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 2288954822034755829}
   - component: {fileID: 4676422080893523287}
   - component: {fileID: 2921166763677181805}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,7 +310,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3315474193572929219}
   - component: {fileID: 2572324035406193811}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UICharacterDeckSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -369,7 +369,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5957661423752339077}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -408,7 +408,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3963268227479148723}
   - component: {fileID: 5283677841164582762}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ELEMENTAL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -467,7 +467,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 129042776567162569}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: TYPE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -504,7 +504,7 @@ GameObject:
   - component: {fileID: 8554226859556045467}
   - component: {fileID: 962770419223384183}
   - component: {fileID: 2676714895560876385}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}

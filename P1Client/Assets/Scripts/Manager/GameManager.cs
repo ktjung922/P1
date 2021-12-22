@@ -7,14 +7,8 @@ namespace NodapParty
 {
     public class GameManager : SingletonGameObject<GameManager>
     {
-        // 앱 포커스 상태에 따른 메서드.
-        public delegate void OnApplicationFocusEventHandler(bool hasFocus);
         // 최상단 Layer 변경 메서드.
         public delegate void OnChangeTopLayerHandler(NLayer layer);
-        /// <summary>
-        /// 앱 포커스 상태에 따른 이벤트.
-        /// </summary>
-        public static event OnApplicationFocusEventHandler  OnApplicationFocusEvent;
         /// <summary>
         /// 최상단 Layer 변경시 이벤트.
         /// </summary>
@@ -48,7 +42,6 @@ namespace NodapParty
         /// </summary>
         public override void DisposeObject()
         {
-            OnApplicationFocusEvent = null;
             OnChangeTopLayer = null;
         }
 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8703878505089853718}
   - component: {fileID: 5656723714425715594}
   - component: {fileID: 3404455975464807572}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 8684275976816418810}
   - component: {fileID: 8580055817894872128}
   - component: {fileID: 8614247815070778299}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 8197763545387140077}
   - component: {fileID: 7992775266417018584}
   - component: {fileID: 1095346189446018158}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 8596995364919089600}
   - component: {fileID: 2832534943835180587}
   - component: {fileID: 1356060792791093376}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Black
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -327,7 +327,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5765353411120996104}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -365,7 +365,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 807230830082116236}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -404,7 +404,7 @@ GameObject:
   - component: {fileID: 2736021376032486081}
   - component: {fileID: 6780705515827861233}
   - component: {fileID: 4852765580654872432}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CharacterImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -479,7 +479,7 @@ GameObject:
   - component: {fileID: 2626192996829319801}
   - component: {fileID: 7902655509959679563}
   - component: {fileID: 4705244079242068549}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Active
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -554,7 +554,7 @@ GameObject:
   - component: {fileID: 1310760493183264021}
   - component: {fileID: 4159569241806271544}
   - component: {fileID: 8082233003321752133}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -629,7 +629,7 @@ GameObject:
   - component: {fileID: 5109144106521713468}
   - component: {fileID: 1708793255618271129}
   - component: {fileID: 669270672378130836}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -704,7 +704,7 @@ GameObject:
   - component: {fileID: 2675179458361239106}
   - component: {fileID: 9102785652874978575}
   - component: {fileID: 2470885375810984521}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -783,7 +783,7 @@ GameObject:
   - component: {fileID: 8749484687251589539}
   - component: {fileID: 3952447014260421274}
   - component: {fileID: 484279130589449644}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UICharacterSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

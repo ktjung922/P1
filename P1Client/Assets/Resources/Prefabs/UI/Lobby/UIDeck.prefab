@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1299162266351972396}
   - component: {fileID: 5218413568413921947}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5217357862205439177}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Deck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,6 +125,68 @@ RectTransform:
   m_AnchoredPosition: {x: -166, y: -49}
   m_SizeDelta: {x: 800, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1857426400203129334
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7254680725845433482}
+  - component: {fileID: 3736916878142706279}
+  m_Layer: 5
+  m_Name: Vertical
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7254680725845433482
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857426400203129334}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5394376568686504052}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 1, y: 1}
+--- !u!114 &3736916878142706279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857426400203129334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 10
+    m_Bottom: 10
+  m_ChildAlignment: 1
+  m_Spacing: 2
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &2318526681793767277
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +196,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4744252656322869670}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Fixed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,7 +234,7 @@ GameObject:
   - component: {fileID: 669875136263557909}
   - component: {fileID: 747415242009237193}
   - component: {fileID: 598765550225643455}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +308,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5546051807121751703}
   - component: {fileID: 5533246298379406084}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Horizontal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -309,7 +371,7 @@ GameObject:
   - component: {fileID: 5328785718413256035}
   - component: {fileID: 4091027423699170918}
   - component: {fileID: 1723780106432835132}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -384,7 +446,7 @@ GameObject:
   - component: {fileID: 7550537128436577579}
   - component: {fileID: 5026202135637676379}
   - component: {fileID: 8085443310034507162}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +523,7 @@ GameObject:
   - component: {fileID: 6755625420668442164}
   - component: {fileID: 2743448965212801617}
   - component: {fileID: 4439238576391998790}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UIDeck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -504,6 +566,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TransOfHasCard: {fileID: 669875136263557909}
   m_TransOfDeck: {fileID: 5546051807121751703}
+  m_TransOfSynergy: {fileID: 7254680725845433482}
 --- !u!223 &6755625420668442164
 Canvas:
   m_ObjectHideFlags: 0
@@ -574,7 +637,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 698121110983130410}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -610,7 +673,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3297655073857706358}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Popup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -651,7 +714,7 @@ GameObject:
   - component: {fileID: 3811275134147612577}
   - component: {fileID: 7271372961352801727}
   - component: {fileID: 4635991692791565965}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -758,7 +821,7 @@ GameObject:
   - component: {fileID: 781565056154409805}
   - component: {fileID: 2768755830968975036}
   - component: {fileID: 8164848797805447343}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Viewport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -847,7 +910,7 @@ GameObject:
   - component: {fileID: 1265328294244289599}
   - component: {fileID: 2125838456716197573}
   - component: {fileID: 4990531786922810843}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -922,7 +985,7 @@ GameObject:
   - component: {fileID: 5394376568686504052}
   - component: {fileID: 5289160217966353508}
   - component: {fileID: 6888068029004741294}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -939,7 +1002,8 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 7254680725845433482}
   m_Father: {fileID: 698121110983130410}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

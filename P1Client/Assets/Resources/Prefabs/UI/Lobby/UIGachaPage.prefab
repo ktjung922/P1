@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2952535299608561914}
   - component: {fileID: 5340204539692614552}
   - component: {fileID: 6686252892795468655}
-  m_Layer: 10
+  m_Layer: 5
   m_Name: Mail1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 4642227219125354862}
   - component: {fileID: 4072590733573560422}
   - component: {fileID: 8283139335522465495}
-  m_Layer: 10
+  m_Layer: 5
   m_Name: Mail2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8755684887129856738}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Popup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 182478256477816232}
   - component: {fileID: 8441709194623375473}
   - component: {fileID: 1313997098782325772}
-  m_Layer: 10
+  m_Layer: 5
   m_Name: glitter3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -271,7 +271,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4907172410697669900}
   - component: {fileID: 1829565576229403088}
-  m_Layer: 10
+  m_Layer: 5
   m_Name: Fixed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -365,7 +365,7 @@ GameObject:
   - component: {fileID: 7287212271613688538}
   - component: {fileID: 9072102688311984625}
   - component: {fileID: 6375717375473014931}
-  m_Layer: 10
+  m_Layer: 5
   m_Name: glow2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -439,7 +439,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3533451171265191135}
   - component: {fileID: 7163846838291534130}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -498,7 +498,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1140843059915176132}
-  m_Layer: 10
+  m_Layer: 5
   m_Name: ItemIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -537,7 +537,7 @@ GameObject:
   - component: {fileID: 8513922220816363966}
   - component: {fileID: 5698248163513533625}
   - component: {fileID: 6263309367299582029}
-  m_Layer: 10
+  m_Layer: 5
   m_Name: glow1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -615,7 +615,7 @@ GameObject:
   - component: {fileID: 106526532880807396}
   - component: {fileID: 8626077790423948639}
   - component: {fileID: 1520541240924371695}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UIGachaPage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -751,7 +751,7 @@ GameObject:
   - component: {fileID: 305650380874812809}
   - component: {fileID: 2231321715360445203}
   - component: {fileID: 4963322290816770947}
-  m_Layer: 10
+  m_Layer: 5
   m_Name: glitter2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -826,7 +826,7 @@ GameObject:
   - component: {fileID: 5430234411372138975}
   - component: {fileID: 8396373002511444954}
   - component: {fileID: 2567989417909131207}
-  m_Layer: 10
+  m_Layer: 5
   m_Name: glitter1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -901,7 +901,7 @@ GameObject:
   - component: {fileID: 7111516189999750188}
   - component: {fileID: 2677607525144091632}
   - component: {fileID: 7172263648597369128}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -67,7 +67,9 @@ namespace NodapParty
             m_Canvas = CacheGameObject.GetComponent<Canvas>();
             if (m_Canvas != null)
             {
-                m_Canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                m_Canvas.renderMode = RenderMode.ScreenSpaceCamera;
+                var camera = GameObject.FindWithTag("UICamera")?.GetComponent<Camera>();
+                m_Canvas.worldCamera = camera;
                 Depth = m_Canvas.sortingOrder;
             }
         }

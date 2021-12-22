@@ -18,17 +18,23 @@ public class UIDeck : NLayer
     [SerializeField]
     private Transform m_TransOfDeck;
 
+    [SerializeField]
+    private Transform m_TransOfSynergy;
+
     private List<UICharacterSlot> m_ListOfCharacterSlot = new List<UICharacterSlot>();
 
     private List<UICharacterDeckSlot> m_ListOfCharacterDeckSlot = new List<UICharacterDeckSlot>();
 
-    private int kMAX_SELECT = 4;
+    private List<UIDeckSynergyInfoSlot> m_ListOfSynergyInfoSlot = new List<UIDeckSynergyInfoSlot>();
 
-    private Dictionary<ElementalData.kTYPE, int> m_DicOfSynergy;
+    private int kMAX_SELECT = 4;
 
     public override void DisposeObject()
     {
         GameManager.Instance.DisposeObjectList(m_ListOfCharacterSlot);
+        GameManager.Instance.DisposeObjectList(m_ListOfCharacterDeckSlot);
+        GameManager.Instance.DisposeObjectList(m_ListOfSynergyInfoSlot);
+        PlayManager.Instance.ClearDeckData();
         base.DisposeObject();
     }
 
@@ -37,6 +43,7 @@ public class UIDeck : NLayer
         PoolManager.Instance.Create<UICharacterSlot>(Constants.kPREFAB_UI_LOBBY_UICHARACTER_SLOT, 1);
         PoolManager.Instance.Create<UICharacterDeckSlot>(Constants.kPREFAB_UI_LOBBY_UICHARACTER_DECK_SLOT, 1);
         PoolManager.Instance.Create<UITypeSlot>(Constants.kPREFAB_UI_LOBBY_UITYPE_SLOT, 1);
+        PoolManager.Instance.Create<UIDeckSynergyInfoSlot>(Constants.kPREFAB_UI_LOBBY_UIDECK_SYNERGY_INFO_SLOT, 1);
         base.Initialization();
 
         MakeCharacterSlot();
@@ -95,32 +102,85 @@ public class UIDeck : NLayer
         if (result != null)
         {
             m_ListOfCharacterDeckSlot.Remove(result);
+            UpdateDeckDataInPlayManager(characterData);
             result.DisposeObject();
             callback?.Invoke();
             return;
         }
-        Debug.Log(characterData.GROUP);
+
         if (m_ListOfCharacterDeckSlot.Find(foundData => foundData.CharacterData.GROUP == characterData.GROUP))
             return;
 
         var deckObj = PoolManager.Instance.Pop<UICharacterDeckSlot>(m_TransOfDeck);
         deckObj.UpdateUI(characterData);
         m_ListOfCharacterDeckSlot.Add(deckObj);
+        UpdateDeckDataInPlayManager(characterData);
         callback?.Invoke();
-        GetAllSynergy();
     }
 
-    private void GetAllSynergy()
+    private void UpdateDeckDataInPlayManager(CharacterData characterData)
     {
-        List<ElementalData> newList = new List<ElementalData>();
-        m_ListOfCharacterDeckSlot.ForEach(slot => 
+        var deckData = PlayManager.Instance.Deck;
+        if (deckData.Contains(characterData))
         {
-            newList.AddRange(slot.CharacterData.ELEMENTAL);
-        });
+            deckData.Remove(characterData);
+            UpdateSynergyDataInPlayManager(characterData, true);
+        }
+        else
+        {
+            deckData.Add(characterData);
+            UpdateSynergyDataInPlayManager(characterData, false);
+        }
+    }
 
-        newList.ForEach(data => 
+    private void UpdateSynergyDataInPlayManager(CharacterData characterData, bool isDelete)
+    {
+        var synergyData = PlayManager.Instance.Synergy;
+        if (isDelete)
         {
-            Debug.Log(data.SYNERGY.ToString());
-        });
+            characterData.ELEMENTAL.ForEach(data => 
+            {
+                if (!synergyData.ContainsKey(data.SYNERGY))
+                    return;
+                
+                if (synergyData[data.SYNERGY] == 1)
+                {
+                    synergyData.Remove(data.SYNERGY);
+                }
+                else 
+                {
+                    synergyData[data.SYNERGY] -= 1;
+                }
+            });
+        }
+        else
+        {
+            characterData.ELEMENTAL.ForEach(data => 
+            {
+                if (synergyData.ContainsKey(data.SYNERGY))
+                {
+                    synergyData[data.SYNERGY] += 1;
+                }
+                else
+                {
+                    synergyData.Add(data.SYNERGY, 1);
+                }
+            });
+        }
+
+        MakeSynergyInfo();
+    }
+
+    private void MakeSynergyInfo()
+    {
+        GameManager.Instance.DisposeObjectList(m_ListOfSynergyInfoSlot);
+
+        var result = PlayManager.Instance.Synergy;
+        foreach (var data in result)
+        {
+            var obj = PoolManager.Instance.Pop<UIDeckSynergyInfoSlot>(m_TransOfSynergy);
+            obj.UpdateUI((int)data.Key, data.Value);
+            m_ListOfSynergyInfoSlot.Add(obj);
+        }
     }
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6740039891424570975}
   - component: {fileID: 1922710955112743737}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UITypeSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 177922548300686796}
   - component: {fileID: 5620805244861154795}
   - component: {fileID: 4754766524263784384}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 5913712696079586902}
   - component: {fileID: 3952276443135700696}
   - component: {fileID: 8693067890500758100}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}

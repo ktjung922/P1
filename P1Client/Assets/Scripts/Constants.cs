@@ -10,4 +10,5 @@ public static class Constants
     public static readonly string   kPREFAB_UI_LOBBY_UIDECK                     = "Prefabs/UI/Lobby/UIDeck";
     public static readonly string   kPREFAB_UI_LOBBY_UICHARACTER_DECK_SLOT      = "Prefabs/UI/Lobby/UICharacterDeckSlot";
     public static readonly string   kPREFAB_UI_LOBBY_UITYPE_SLOT                = "Prefabs/UI/Lobby/UITypeSlot";
+    public static readonly string   kPREFAB_UI_LOBBY_UIDECK_SYNERGY_INFO_SLOT   = "Prefabs/UI/Lobby/UIDeckSynergyInfoSlot";
 }
