@@ -84,13 +84,13 @@ namespace NodapParty
                 if (i == activeCount)
                 {
                     sb.Append("<color=#ff0000ff><b>");
-                    sb.Append(synergyData.IF[i].COUNT);
-                    sb.Append("</b></color>");
                 }
                 else
                 {
-                    sb.Append(synergyData.IF[i].COUNT);
+                    sb.Append("<color=#9c9c9c><b>");
                 }
+                sb.Append(synergyData.IF[i].COUNT);
+                sb.Append("</b></color>");
 
                 if (i != synergyData.UPGRADE.Count - 1)
                     sb.Append("/");
@@ -106,15 +106,14 @@ namespace NodapParty
                 if (i == activeCount)
                 {
                     sb.Append("<color=#ff0000ff><b>");
-                    var tmp = (synergyData.UPGRADE[i].RATE % 1 == 0) ? synergyData.UPGRADE[i].RATE : (int)(synergyData.UPGRADE[i].RATE * 100);
-                    sb.Append(tmp);
-                    sb.Append("</b></color>");
                 }
                 else
                 {
-                    var tmp = (synergyData.UPGRADE[i].RATE % 1 == 0) ? synergyData.UPGRADE[i].RATE : (int)(synergyData.UPGRADE[i].RATE * 100);
-                    sb.Append(tmp);
+                    sb.Append("<color=#9c9c9c><b>");
                 }
+                var tmp = (synergyData.UPGRADE[i].RATE % 1 == 0) ? synergyData.UPGRADE[i].RATE : (int)(synergyData.UPGRADE[i].RATE * 100);
+                sb.Append(tmp);
+                sb.Append("</b></color>");
 
                 if (i != synergyData.UPGRADE.Count - 1)
                     sb.Append("/");
