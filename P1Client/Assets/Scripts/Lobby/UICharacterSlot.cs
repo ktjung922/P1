@@ -26,8 +26,6 @@ public class UICharacterSlot : NObject
 
     private CharacterData   m_CharacterData;
 
-    private bool            m_IsDeck;
-
     private bool            m_IsActive;
 
     public override void DisposeObject()
@@ -46,7 +44,7 @@ public class UICharacterSlot : NObject
         m_ImageOfCharacter.sprite = UtillManager.Instance.GetSprite(m_CharacterData.CARD_IMG);
         UpdateStar();
         UpdateName();
-        UpdateActive();
+        UpdateActive(true);
 
         base.Show();
     }
@@ -64,23 +62,22 @@ public class UICharacterSlot : NObject
         m_TextOfName.text = TextManager.Instance.GetText(m_CharacterData.INDEX);
     }
 
-    private void UpdateActive()
+    public void UpdateActive(bool isInit)
     {
+        if (!isInit) 
+            m_IsActive = !m_IsActive;
+        
         m_ObjectOfActive.SetActive(m_IsActive);
     }
 
     public void OnTouch()
     {
-        if (m_IsDeck)
-            return;
-        
         if (!GameManager.Instance.CheckResult<UIDeck>(UIDeck.kNOTFY.CheckMaxSelect) && !m_IsActive)
             return;
         
         GameManager.Instance.SendObjectAndCallBack<UIDeck>(UIDeck.kNOTFY.SelectCharacter, this, delegate() 
         {
-            m_IsActive = !m_IsActive;
-            UpdateActive();
+            UpdateActive(false);
         });
     }
 

@@ -65,6 +65,11 @@ public class UICharacterDeckSlot : NObject
         });        
     }
 
+    public void OnTouch()
+    {
+        GameManager.Instance.SendObject<UIDeck>(UIDeck.kNOTFY.RemoveDeckCharacter, this);
+    }
+
     public CharacterData CharacterData
     {
         get { return m_CharacterData; }
