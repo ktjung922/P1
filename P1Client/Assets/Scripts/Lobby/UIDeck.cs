@@ -9,6 +9,7 @@ public class UIDeck : NLayer
     public enum kNOTFY
     {
         SelectCharacter,
+        RemoveDeckCharacter,
         CheckMaxSelect
     }
 
@@ -57,10 +58,12 @@ public class UIDeck : NLayer
     public override void ReceiveObject(Enum value, NObject obj, Action callback = null)
     {
         var noti = (kNOTFY)Enum.Parse(typeof(kNOTFY), value.ToString());
-        if (noti != kNOTFY.SelectCharacter)
-            return;
-                  
-        SelectCharacter(obj, callback);
+
+        switch(noti)
+        {
+            case kNOTFY.SelectCharacter: SelectCharacter(obj, callback); break;
+            case kNOTFY.RemoveDeckCharacter: RemoveDeckCharacter(obj, callback); break;
+        }
     }
 
     public override bool CheckResult(Enum value)
@@ -91,6 +94,17 @@ public class UIDeck : NLayer
             obj.UpdateUI(characterData, true);
             m_ListOfCharacterSlot.Add(obj);
         });
+    }
+
+    private void RemoveDeckCharacter(NObject obj, Action callback)
+    {
+        var slot = obj as UICharacterDeckSlot;
+        var characterData = slot.CharacterData;
+
+        UpdateDeckDataInPlayManager(characterData);
+        m_ListOfCharacterSlot.Find(data => data.CharacterData.INDEX == characterData.INDEX).UpdateActive(false);
+        m_ListOfCharacterDeckSlot.Remove(slot);
+        slot.DisposeObject();
     }
 
     private void SelectCharacter(NObject obj, Action callback)
@@ -136,11 +150,7 @@ public class UIDeck : NLayer
     private void UpdateSynergyDataInPlayManager(CharacterData characterData, bool isDelete)
     {
         var synergyData = PlayManager.Instance.Synergy;
-        characterData.ELEMENTAL.ForEach(data => 
-        {
-            PlayManager.Instance.UpdateSynergy(data.SYNERGY, isDelete);
-        });
-        PlayManager.Instance.CheckGiveSynergy(isDelete);
+        PlayManager.Instance.UpdateSynergy(characterData.ELEMENTAL, isDelete);
 
         MakeSynergyInfo();
     }
@@ -152,6 +162,7 @@ public class UIDeck : NLayer
         var result = PlayManager.Instance.Synergy;
         foreach (var data in result)
         {
+            Debug.Log(data.Key + " / " + data.Value);
             var count = (data.Key == ElementalData.kTYPE.Nothing) ? PlayManager.Instance.GetCountOfDPSInDeck() : data.Value;
 
             var activeCount = TableManager.Instance.GetCountOfSynergyActive((int)data.Key, count);

@@ -8,6 +8,7 @@ public sealed class ElementalData
 {
     public enum kTYPE
     {
+        None,
         Glasses = 100,
         Eyes,
         Machine,
@@ -29,7 +30,7 @@ public sealed class ElementalData
     
     public bool isGiveSynergyType()
     {
-        var result = TableManager.Instance.GetSynergyDataWithIndex((int)SYNERGY).UPGRADE?.First();
+        var result = TableManager.Instance.GetSynergyDataWithIndex((int)SYNERGY)?.UPGRADE?.First();
         if (result == null || result.TYPE != SynergyUpgradeData.kTYPE.GIVE_SYNERGY)
             return false;
 

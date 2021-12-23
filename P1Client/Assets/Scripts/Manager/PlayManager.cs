@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using NodapParty;
 
 public class PlayManager : SingletonGameObject<PlayManager>
@@ -16,6 +17,12 @@ public class PlayManager : SingletonGameObject<PlayManager>
     private Dictionary<ElementalData.kTYPE, int>    m_DicOfSynergy = new Dictionary<ElementalData.kTYPE, int>();
 
     private int kKITAE_THREE_INDEX = 12;
+
+    private Dictionary<ElementalData.kTYPE, ElementalData.kTYPE> m_DicOfGiveSynergy = new Dictionary<ElementalData.kTYPE, ElementalData.kTYPE>()
+    {
+        { ElementalData.kTYPE.SwimmingPool, ElementalData.kTYPE.Water },
+        { ElementalData.kTYPE.Attractive, ElementalData.kTYPE.Love }
+    };
 
     public void Initialization()
     {
@@ -37,6 +44,30 @@ public class PlayManager : SingletonGameObject<PlayManager>
     {
         var result = PlayManager.Instance.Deck.FindAll(data => (data.TYPE == CharacterData.kTYPE.ATTACK || data.TYPE == CharacterData.kTYPE.MAGIC) && data.INDEX != kKITAE_THREE_INDEX).Count;
         return result;
+    }
+
+    public void UpdateSynergy(List<ElementalData> list, bool isDelete, int count = 1)
+    {
+        bool isTarget = false;
+        ElementalData target = new ElementalData();
+        list.ForEach(data =>
+        {
+            UpdateSynergy(data.SYNERGY, isDelete, count);
+
+            if (data.isGiveSynergyType())
+            {
+                target.SYNERGY = data.SYNERGY;
+                isTarget = true;
+            }
+        });
+        
+        if (!isTarget)
+        {
+            CheckGiveSynergy(isDelete);
+            return;
+        }
+
+        CheckGiveSynergy(isDelete, target);
     }
 
     public void UpdateSynergy(ElementalData.kTYPE type, bool isDelete, int count = 1)
@@ -68,26 +99,30 @@ public class PlayManager : SingletonGameObject<PlayManager>
         }
     }
 
-    public void CheckGiveSynergy(bool isDelete)
+    public void CheckGiveSynergy(bool isDelete, ElementalData target = null)
     {
-        var count = m_ListOfDeckCharacter.Count;
-        var preCount = isDelete ? count + 1 : count - 1;
-        Debug.Log(isDelete + " / " + count + " / " + preCount);
+        var curCount = m_ListOfDeckCharacter.Count;
+        var preCount = isDelete ? curCount + 1 : curCount - 1;
+        if (target == null)
+            target = new ElementalData();
 
-        if (m_DicOfSynergy.ContainsKey(ElementalData.kTYPE.SwimmingPool))
+        if (target.isGiveSynergyType())
         {
-            UpdateSynergy(ElementalData.kTYPE.Water, true, preCount);
-            Debug.Log(m_DicOfSynergy.ContainsKey(ElementalData.kTYPE.Water));
-            UpdateSynergy(ElementalData.kTYPE.Water, false, count);
-            Debug.Log(m_DicOfSynergy[ElementalData.kTYPE.Water]);
+            var count = isDelete ? preCount : curCount;
+
+            UpdateSynergy(m_DicOfGiveSynergy[target.SYNERGY], isDelete, count);
         }
 
-        if (m_DicOfSynergy.ContainsKey(ElementalData.kTYPE.Attractive))
+        if (m_DicOfSynergy.ContainsKey(ElementalData.kTYPE.SwimmingPool) && target.SYNERGY != ElementalData.kTYPE.SwimmingPool)
+        {
+            UpdateSynergy(ElementalData.kTYPE.Water, true, preCount);
+            UpdateSynergy(ElementalData.kTYPE.Water, false, curCount);
+        }
+
+        if (m_DicOfSynergy.ContainsKey(ElementalData.kTYPE.Attractive) && target.SYNERGY != ElementalData.kTYPE.Attractive)
         {
             UpdateSynergy(ElementalData.kTYPE.Love, true, preCount);
-            Debug.Log(m_DicOfSynergy.ContainsKey(ElementalData.kTYPE.Love));
-            UpdateSynergy(ElementalData.kTYPE.Love, false, count);
-            Debug.Log(m_DicOfSynergy[ElementalData.kTYPE.Love]);
+            UpdateSynergy(ElementalData.kTYPE.Love, false, curCount);
         }
     }
 
