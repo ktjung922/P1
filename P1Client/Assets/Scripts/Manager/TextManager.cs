@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text;
 using SimpleJSON;
 
 
@@ -62,6 +63,69 @@ namespace NodapParty
                 return text;
             
             return string.Empty;
+        }
+
+        public string GetSynergyText(int synergyIndex, int activeCount)
+        {
+            string text;
+            var synergyData = TableManager.Instance.GetSynergyDataWithIndex(synergyIndex);
+            if (synergyData == null)
+                return string.Empty;
+
+            if (!m_DicLocalText.TryGetValue(synergyData.STRING_INDEX, out text))
+                return string.Empty;
+            
+            
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("(");
+            for (int i = 0; i < synergyData.IF.Count; i++)
+            {
+                if (i == activeCount)
+                {
+                    sb.Append("<color=#ff0000ff><b>");
+                    sb.Append(synergyData.IF[i].COUNT);
+                    sb.Append("</b></color>");
+                }
+                else
+                {
+                    sb.Append(synergyData.IF[i].COUNT);
+                }
+
+                if (i != synergyData.UPGRADE.Count - 1)
+                    sb.Append("/");
+            }
+            sb.Append(")");
+
+            var IFCount = sb.ToString();
+            sb.Clear();
+
+            sb.Append("(");
+            for (int i = 0; i < synergyData.UPGRADE.Count; i++)
+            {
+                if (i == activeCount)
+                {
+                    sb.Append("<color=#ff0000ff><b>");
+                    var tmp = (synergyData.UPGRADE[i].RATE % 1 == 0) ? synergyData.UPGRADE[i].RATE : (int)(synergyData.UPGRADE[i].RATE * 100);
+                    sb.Append(tmp);
+                    sb.Append("</b></color>");
+                }
+                else
+                {
+                    var tmp = (synergyData.UPGRADE[i].RATE % 1 == 0) ? synergyData.UPGRADE[i].RATE : (int)(synergyData.UPGRADE[i].RATE * 100);
+                    sb.Append(tmp);
+                }
+
+                if (i != synergyData.UPGRADE.Count - 1)
+                    sb.Append("/");
+            }
+            sb.Append(")");
+
+            var UpgradeCount = sb.ToString();
+
+            text = string.Format(text, IFCount, UpgradeCount);
+            
+            return text;
         }
     }
 }

@@ -136,37 +136,11 @@ public class UIDeck : NLayer
     private void UpdateSynergyDataInPlayManager(CharacterData characterData, bool isDelete)
     {
         var synergyData = PlayManager.Instance.Synergy;
-        if (isDelete)
+        characterData.ELEMENTAL.ForEach(data => 
         {
-            characterData.ELEMENTAL.ForEach(data => 
-            {
-                if (!synergyData.ContainsKey(data.SYNERGY))
-                    return;
-                
-                if (synergyData[data.SYNERGY] == 1)
-                {
-                    synergyData.Remove(data.SYNERGY);
-                }
-                else 
-                {
-                    synergyData[data.SYNERGY] -= 1;
-                }
-            });
-        }
-        else
-        {
-            characterData.ELEMENTAL.ForEach(data => 
-            {
-                if (synergyData.ContainsKey(data.SYNERGY))
-                {
-                    synergyData[data.SYNERGY] += 1;
-                }
-                else
-                {
-                    synergyData.Add(data.SYNERGY, 1);
-                }
-            });
-        }
+            PlayManager.Instance.UpdateSynergy(data.SYNERGY, isDelete);
+        });
+        PlayManager.Instance.CheckGiveSynergy(isDelete);
 
         MakeSynergyInfo();
     }
@@ -178,8 +152,14 @@ public class UIDeck : NLayer
         var result = PlayManager.Instance.Synergy;
         foreach (var data in result)
         {
+            var count = (data.Key == ElementalData.kTYPE.Nothing) ? PlayManager.Instance.GetCountOfDPSInDeck() : data.Value;
+
+            var activeCount = TableManager.Instance.GetCountOfSynergyActive((int)data.Key, count);
+            if (activeCount == -1)
+                continue;
+
             var obj = PoolManager.Instance.Pop<UIDeckSynergyInfoSlot>(m_TransOfSynergy);
-            obj.UpdateUI((int)data.Key, data.Value);
+            obj.UpdateUI((int)data.Key, activeCount);
             m_ListOfSynergyInfoSlot.Add(obj);
         }
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [System.Serializable]
 public sealed class ElementalData
@@ -25,4 +26,13 @@ public sealed class ElementalData
     }
 
     public kTYPE SYNERGY;
+    
+    public bool isGiveSynergyType()
+    {
+        var result = TableManager.Instance.GetSynergyDataWithIndex((int)SYNERGY).UPGRADE?.First();
+        if (result == null || result.TYPE != SynergyUpgradeData.kTYPE.GIVE_SYNERGY)
+            return false;
+
+        return true;
+    }
 }

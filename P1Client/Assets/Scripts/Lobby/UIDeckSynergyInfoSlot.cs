@@ -20,7 +20,7 @@ public class UIDeckSynergyInfoSlot : NObject
     public void UpdateUI(int synergyIndex, int activeIndex)
     {
         m_Title.text = TextManager.Instance.GetText(synergyIndex);
-        m_Desc.text = activeIndex + "개 활성화.";
+        m_Desc.text = TextManager.Instance.GetSynergyText(synergyIndex, activeIndex);
 
         base.Show();
     }
