@@ -16,7 +16,8 @@ public class Initialization : NObject
         GachaManager.Instance.LoadDefaultGachaData();
         DataManager.Instance.LoadUserData();
         TextManager.Instance.LoadLocalTextFile("Scripts/STRING_LOCAL");
+        PlayManager.Instance.Initialization();
 
-        GameManager.Instance.Push<UILobby>(Constants.kPREFAB_UI_LOBBY_UILOBBY);
+        GameManager.Instance.Push<UILobby>(Constants.kPREFAB_LOBBY_UI_LOBBY);
     }
 }

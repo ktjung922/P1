@@ -13,17 +13,17 @@ public class UILobby : NLayer
 
     public void OnTouchGacha()
     {
-        GameManager.Instance.Push<UIGacha>(Constants.kPREFAB_UI_LOBBY_UIGACHA);
+        GameManager.Instance.Push<UIGacha>(Constants.kPREFAB_LOBBY_UI_GACHA);
     }
     
     public void OnTouchDeck()
     {
-        GameManager.Instance.Push<UIBook>(Constants.kPREFAB_UI_LOBBY_UIBOOK);
+        GameManager.Instance.Push<UIBook>(Constants.kPREFAB_LOBBY_UI_BOOK);
     }
 
     public void OnTouchPlay()
     {
-        GameManager.Instance.Push<UIDeck>(Constants.kPREFAB_UI_LOBBY_UIDECK);
+        GameManager.Instance.Push<UIDeck>(Constants.kPREFAB_LOBBY_UI_DECK);
     }
 
     public void OnTouchReset()

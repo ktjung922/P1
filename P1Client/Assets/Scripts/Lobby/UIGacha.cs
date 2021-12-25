@@ -100,7 +100,7 @@ public class UIGacha : NLayer
         GameManager.Instance.Push<UIGachaPage>(delegate (UIGachaPage layer) 
         {
             layer.SetResultGachaData(newList);
-        }, Constants.kPREFAB_UI_LOBBY_UIGACHA_PAGE);
+        }, Constants.kPREFAB_LOBBY_UI_GACHA_PAGE);
         
     }
 
@@ -110,6 +110,6 @@ public class UIGacha : NLayer
         GameManager.Instance.Push<UIGachaPage>(delegate (UIGachaPage layer) 
         {
             layer.SetResultGachaData(newList);
-        }, Constants.kPREFAB_UI_LOBBY_UIGACHA_PAGE);
+        }, Constants.kPREFAB_LOBBY_UI_GACHA_PAGE);
     }
 }

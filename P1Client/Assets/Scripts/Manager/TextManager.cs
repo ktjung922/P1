@@ -111,6 +111,7 @@ namespace NodapParty
                 {
                     sb.Append("<color=#9c9c9c><b>");
                 }
+                
                 var tmp = (synergyData.UPGRADE[i].RATE % 1 == 0) ? synergyData.UPGRADE[i].RATE : (int)(synergyData.UPGRADE[i].RATE * 100);
                 sb.Append(tmp);
                 sb.Append("</b></color>");

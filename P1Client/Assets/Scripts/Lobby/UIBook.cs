@@ -23,7 +23,7 @@ public class UIBook : NLayer
     public override void Initialization()
     {
         base.Initialization();
-        PoolManager.Instance.Create<UICharacterSlot>(Constants.kPREFAB_UI_LOBBY_UICHARACTER_SLOT, 1);
+        PoolManager.Instance.Create<UICharacterSlot>(Constants.kPREFAB_LOBBY_UI_CHARACTER_SLOT, 1);
 
         var list = TableManager.Instance.GetCharacterData();
         list.ForEach(data => 

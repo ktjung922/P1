@@ -41,10 +41,10 @@ public class UIDeck : NLayer
 
     public override void Initialization()
     {
-        PoolManager.Instance.Create<UICharacterSlot>(Constants.kPREFAB_UI_LOBBY_UICHARACTER_SLOT, 1);
-        PoolManager.Instance.Create<UICharacterDeckSlot>(Constants.kPREFAB_UI_LOBBY_UICHARACTER_DECK_SLOT, 1);
-        PoolManager.Instance.Create<UITypeSlot>(Constants.kPREFAB_UI_LOBBY_UITYPE_SLOT, 1);
-        PoolManager.Instance.Create<UIDeckSynergyInfoSlot>(Constants.kPREFAB_UI_LOBBY_UIDECK_SYNERGY_INFO_SLOT, 1);
+        PoolManager.Instance.Create<UICharacterSlot>(Constants.kPREFAB_LOBBY_UI_CHARACTER_SLOT, 1);
+        PoolManager.Instance.Create<UICharacterDeckSlot>(Constants.kPREFAB_LOBBY_UI_CHARACTER_DECK_SLOT, 1);
+        PoolManager.Instance.Create<UITypeSlot>(Constants.kPREFAB_LOBBY_UI_TYPE_SLOT, 1);
+        PoolManager.Instance.Create<UIDeckSynergyInfoSlot>(Constants.kPREFAB_LOBBY_UI_DECK_SYNERGY_INFO_SLOT, 1);
         base.Initialization();
 
         MakeCharacterSlot();
@@ -162,7 +162,6 @@ public class UIDeck : NLayer
         var result = PlayManager.Instance.Synergy;
         foreach (var data in result)
         {
-            Debug.Log(data.Key + " / " + data.Value);
             var count = (data.Key == ElementalData.kTYPE.Nothing) ? PlayManager.Instance.GetCountOfDPSInDeck() : data.Value;
 
             var activeCount = TableManager.Instance.GetCountOfSynergyActive((int)data.Key, count);
@@ -173,5 +172,10 @@ public class UIDeck : NLayer
             obj.UpdateUI((int)data.Key, activeCount);
             m_ListOfSynergyInfoSlot.Add(obj);
         }
+    }
+
+    public void OnTouchPlay()
+    {
+        PlayManager.Instance.PlayGame();
     }
 }

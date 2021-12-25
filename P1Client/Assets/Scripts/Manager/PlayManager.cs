@@ -12,11 +12,23 @@ public class PlayManager : SingletonGameObject<PlayManager>
 
     private Camera ParticleCamera;
 
+    private Transform PlayBG;
+
+    private IGBoss      m_Boss;
+
     private List<CharacterData>                     m_ListOfDeckCharacter = new List<CharacterData>();
 
     private Dictionary<ElementalData.kTYPE, int>    m_DicOfSynergy = new Dictionary<ElementalData.kTYPE, int>();
 
-    private int kKITAE_THREE_INDEX = 12;
+    private Vector3[] m_PosOfCharacters = 
+    { 
+        new Vector3(-6.5f, 2.5f, 0f), 
+        new Vector3(-6.5f, -2.5f, 0f),
+        new Vector3(-2.5f, 2.5f, 0f),
+        new Vector3(-2.5f, -2.5f, 0f)
+    };
+
+    private Vector3 m_PosOfBoss = new Vector3(4f, 0f, 0f);
 
     private Dictionary<ElementalData.kTYPE, ElementalData.kTYPE> m_DicOfGiveSynergy = new Dictionary<ElementalData.kTYPE, ElementalData.kTYPE>()
     {
@@ -26,10 +38,23 @@ public class PlayManager : SingletonGameObject<PlayManager>
 
     public void Initialization()
     {
+        PlayBG = GameObject.FindWithTag("PlayBG")?.transform;
+        PlayBG.gameObject.SetActive(false);
+
         MainCamera = GameObject.FindWithTag("MainCamera")?.GetComponent<Camera>();
         UICamera = GameObject.FindWithTag("UICamera")?.GetComponent<Camera>();
         ParticleCamera = GameObject.FindWithTag("ParticleCamera")?.GetComponent<Camera>();
+
+        GameManager.Instance.Push<UIInGame>((layer)=>
+        {
+            layer.Hide();
+        },Constants.kPREFAB_INGAME_UI_INGAME);
+        PoolManager.Instance.Create<IGBaseCharacter>(Constants.kPREFAB_INGAME_IG_BASE_CHARACTER, 1);
+        PoolManager.Instance.Create<IGKyungtae>(Constants.kPREFAB_CHARAcTER_IG_KYUNGTAE, 1);
+        PoolManager.Instance.Create<IGBoss>(Constants.kPREFAB_INGAME_IG_BOSS, 1);
     }
+
+#region Deck.
 
     public void ClearDeckData()
     {
@@ -42,7 +67,7 @@ public class PlayManager : SingletonGameObject<PlayManager>
     ///</summery>
     public int GetCountOfDPSInDeck()
     {
-        var result = PlayManager.Instance.Deck.FindAll(data => (data.TYPE == CharacterData.kTYPE.ATTACK || data.TYPE == CharacterData.kTYPE.MAGIC) && data.INDEX != kKITAE_THREE_INDEX).Count;
+        var result = PlayManager.Instance.Deck.FindAll(data => (data.TYPE == CharacterData.kTYPE.ATTACK || data.TYPE == CharacterData.kTYPE.MAGIC) && data.INDEX != Constants.kITAE_THREE_INDEX).Count;
         return result;
     }
 
@@ -126,6 +151,74 @@ public class PlayManager : SingletonGameObject<PlayManager>
         }
     }
 
+#endregion Deck.
+
+#region Play.
+
+    public void PlayGame()
+    {
+        GameManager.Instance.Hide<UIDeck>();
+        GameManager.Instance.Hide<UILobby>();
+        GameManager.Instance.Show<UIInGame>();
+        PlayBG.gameObject.SetActive(true);
+
+        InitPlay();
+    }
+
+    public void EndPlayGame()
+    {
+        GameManager.Instance.Show<UIDeck>();
+        GameManager.Instance.Show<UILobby>();
+        GameManager.Instance.Hide<UIInGame>();
+        PlayBG.gameObject.SetActive(false);
+    }
+
+    public void InitPlay()
+    {
+        if (m_ListOfDeckCharacter.Count == 0)
+        {
+            EndPlayGame();
+            return;
+        }
+
+        m_Boss = PoolManager.Instance.Pop<IGBoss>(PlayBG);
+        m_Boss.transform.position = m_PosOfBoss;
+
+        for (int i = 0; i < m_ListOfDeckCharacter.Count; i++)
+        {
+            var obj = PopCharacterPrefabs(m_ListOfDeckCharacter[i]);
+            obj.transform.position = m_PosOfCharacters[i];
+            obj.InitObject(m_ListOfDeckCharacter[i]);
+        }
+    }
+
+    public IGBaseCharacter PopCharacterPrefabs(CharacterData data)
+    {
+        IGBaseCharacter result = null;
+        switch(data.GROUP)
+        {
+            case CharacterData.kGROUP.Kyungtae: 
+                result = PoolManager.Instance.Pop<IGKyungtae>(PlayBG);
+                break;
+            default: 
+                result = PoolManager.Instance.Pop<IGBaseCharacter>(PlayBG);
+                break;
+        }
+        return result;
+    }
+
+    public void AttackBoss(int damage, int charIndex)
+    {
+        if (m_Boss == null)
+            return;
+        
+        m_Boss.Demaged(damage, charIndex);
+    }
+
+#endregion Play.
+
+#region Property.
+
     public List<CharacterData> Deck
     {
         get { return m_ListOfDeckCharacter; }
@@ -137,4 +230,6 @@ public class PlayManager : SingletonGameObject<PlayManager>
         get { return m_DicOfSynergy; }
         set { m_DicOfSynergy = value; }
     }
+
+#endregion Property.
 }

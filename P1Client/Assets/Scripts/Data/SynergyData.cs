@@ -19,6 +19,8 @@ public class SynergyData
 
     public kTARGET_TYPE TARGET;
 
+    public ColorData COLOR_CODE;
+
     public List<SynergyIFData> IF;
 
     public List<SynergyUpgradeData> UPGRADE;

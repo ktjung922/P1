@@ -22,13 +22,29 @@ public sealed class CharacterData
         BUFFER = 152
     }
 
+    public enum kGROUP
+    {
+        None,
+        Kyungin,
+        Hyungtae,
+        Taeho,
+        Kitae,
+        Jongyub,
+        Jungi,
+        Juhwan,
+        Sungjun,
+        Jaewon,
+        Unsub,
+        Kyungtae
+    }
+
     public int INDEX;
 
     public int DESC_INDEX;
 
     public kTYPE TYPE;
 
-    public int GROUP;
+    public kGROUP GROUP;
 
     public kGRADE GRADE;
 

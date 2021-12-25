@@ -42,7 +42,7 @@ public class UIGachaPage : NLayer
         base.Initialization();
         m_ObjcetOfPopupUI.SetActive(false);
 
-        PoolManager.Instance.Create<UICharacterCardSlot>(Constants.kPREFAB_UI_LOBBY_UICHARACTER_CARD_SLOT, 1);
+        PoolManager.Instance.Create<UICharacterCardSlot>(Constants.kPREFAB_LOBBY_UI_CHARACTER_CARD_SLOT, 1);
     }
 
     public override void OnEscapeEvent()
@@ -116,7 +116,7 @@ public class UIGachaPage : NLayer
             var queue = new Queue<CharacterData>();
             m_ListOfCharacterData.ForEach(data => queue.Enqueue(data));
             layer.UpdateUI(queue);
-        }, Constants.kPREFAB_UI_LOBBY_UIGACHA_POPUP);
+        }, Constants.kPREFAB_LOBBY_UI_GACHA_POPUP);
     }
 
     private void ChangeAllAnimation()
