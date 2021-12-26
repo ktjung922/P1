@@ -17,6 +17,7 @@ public class Initialization : NObject
         DataManager.Instance.LoadUserData();
         TextManager.Instance.LoadLocalTextFile("Scripts/STRING_LOCAL");
         PlayManager.Instance.Initialization();
+        ParticleManager.Instance.Init();
 
         GameManager.Instance.Push<UILobby>(Constants.kPREFAB_LOBBY_UI_LOBBY);
     }
