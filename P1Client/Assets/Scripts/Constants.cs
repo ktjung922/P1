@@ -19,7 +19,11 @@ public static class Constants
     public static readonly string   kPREFAB_INGAME_UI_INGAME                    = "Prefabs/InGame/UIInGame";
     public static readonly string   kPREFAB_INGAME_IG_BASE_CHARACTER            = "Prefabs/InGame/IGBaseCharacter";
     public static readonly string   kPREFAB_INGAME_IG_BOSS                      = "Prefabs/InGame/IGBoss";
+    public static readonly string   kPREFAB_INGAME_IG_DAMAGE_TEXT               = "Prefabs/InGame/IGDamageText";
 
     // 캐릭터.
     public static readonly string   kPREFAB_CHARAcTER_IG_KYUNGTAE               = "Prefabs/Character/IGKyungtae";
+
+    // 파티클
+    public static readonly string   kPARTICLE_HIT_1                             = "Prefabs/Particle/Hit_1";
 }

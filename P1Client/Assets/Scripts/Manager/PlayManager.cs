@@ -16,9 +16,13 @@ public class PlayManager : SingletonGameObject<PlayManager>
 
     private IGBoss      m_Boss;
 
+    private bool        m_IsAllCharacterInit;
+
     private List<CharacterData>                     m_ListOfDeckCharacter = new List<CharacterData>();
 
     private Dictionary<ElementalData.kTYPE, int>    m_DicOfSynergy = new Dictionary<ElementalData.kTYPE, int>();
+
+    private List<IGBaseCharacter>                   m_ListOfCharacterObject = new List<IGBaseCharacter>();
 
     private Vector3[] m_PosOfCharacters = 
     { 
@@ -161,6 +165,7 @@ public class PlayManager : SingletonGameObject<PlayManager>
         GameManager.Instance.Hide<UILobby>();
         GameManager.Instance.Show<UIInGame>();
         PlayBG.gameObject.SetActive(true);
+        m_IsAllCharacterInit = false;
 
         InitPlay();
     }
@@ -171,6 +176,8 @@ public class PlayManager : SingletonGameObject<PlayManager>
         GameManager.Instance.Show<UILobby>();
         GameManager.Instance.Hide<UIInGame>();
         PlayBG.gameObject.SetActive(false);
+
+        DisposePlay();
     }
 
     public void InitPlay()
@@ -182,6 +189,7 @@ public class PlayManager : SingletonGameObject<PlayManager>
         }
 
         m_Boss = PoolManager.Instance.Pop<IGBoss>(PlayBG);
+        m_Boss.Init();
         m_Boss.transform.position = m_PosOfBoss;
 
         for (int i = 0; i < m_ListOfDeckCharacter.Count; i++)
@@ -189,7 +197,17 @@ public class PlayManager : SingletonGameObject<PlayManager>
             var obj = PopCharacterPrefabs(m_ListOfDeckCharacter[i]);
             obj.transform.position = m_PosOfCharacters[i];
             obj.InitObject(m_ListOfDeckCharacter[i]);
+            m_ListOfCharacterObject.Add(obj);
         }
+
+        StartCoroutine(TimeCheck());
+    }
+
+    public void DisposePlay()
+    {
+        m_Boss.DisposeObject();
+        GameManager.Instance.DisposeObjectList(m_ListOfCharacterObject);
+        m_ListOfCharacterObject.Clear();
     }
 
     public IGBaseCharacter PopCharacterPrefabs(CharacterData data)
@@ -207,15 +225,42 @@ public class PlayManager : SingletonGameObject<PlayManager>
         return result;
     }
 
-    public void AttackBoss(int damage, int charIndex)
+    public void AttackBoss(int damage, int charIndex, ParticleManager.kPARTICLE particle = ParticleManager.kPARTICLE.None)
     {
         if (m_Boss == null)
             return;
         
-        m_Boss.Demaged(damage, charIndex);
+        m_Boss.Demaged(damage, charIndex, particle);
     }
 
 #endregion Play.
+
+#region Time.
+
+    public IEnumerator TimeCheck()
+    {
+        yield return new WaitUntil(() => 
+        {
+            var count = 0;
+            m_ListOfCharacterObject.ForEach(data => 
+            {
+                if (data.isEndIdle)
+                {
+                    count++;
+                }
+            });
+
+            if (count == m_ListOfCharacterObject.Count)
+                return true;
+            else
+                return false;
+        });
+
+        m_IsAllCharacterInit = true;
+        GameManager.Instance.Notify<UIInGame>(UIInGame.kNOTIFY.StartTimer);
+    }
+
+#endregion Time.
 
 #region Property.
 
@@ -229,6 +274,17 @@ public class PlayManager : SingletonGameObject<PlayManager>
     {
         get { return m_DicOfSynergy; }
         set { m_DicOfSynergy = value; }
+    }
+
+    public bool canTimeFlow 
+    { 
+        get 
+        { 
+            if (!m_IsAllCharacterInit)
+                return false;
+            
+            return true;
+        } 
     }
 
 #endregion Property.

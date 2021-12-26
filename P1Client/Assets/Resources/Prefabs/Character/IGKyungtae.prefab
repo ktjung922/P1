@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4778869087762699874}
   - component: {fileID: 3928103816346664044}
+  - component: {fileID: 1745113179530725956}
   m_Layer: 0
   m_Name: IGKyungtae
   m_TagString: Untagged
@@ -44,8 +45,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0778c3bcee05384b90e612abaf3e4e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Animator: {fileID: 0}
+  m_Animator: {fileID: 1745113179530725956}
   m_SpriteOfCharacter: {fileID: 4778869089185780161}
+--- !u!95 &1745113179530725956
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4778869087762699873}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b96460394a76f4346bb8b32085a56515, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4778869088759886871
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,7 +139,7 @@ SpriteMask:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -5177388603050735206, guid: cc35afd292fc349128b36a291fb3a165, type: 3}
-  m_MaskAlphaCutoff: 0.2
+  m_MaskAlphaCutoff: 1
   m_FrontSortingLayerID: 0
   m_BackSortingLayerID: 0
   m_FrontSortingLayer: 0

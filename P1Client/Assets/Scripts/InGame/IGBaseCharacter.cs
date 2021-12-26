@@ -14,6 +14,14 @@ public class IGBaseCharacter : NObject
         Special
     }
 
+    public enum kANIM_TRIGGER
+    {
+        Idle,
+        Attack,
+        Skill,
+        Buff
+    }
+
     [SerializeField]
     private Animator    m_Animator;
 
@@ -34,10 +42,33 @@ public class IGBaseCharacter : NObject
 
     protected int m_ActionNum;
 
+    protected bool m_IsEndIdle = false;
+
+    private string kATTACK_SPEED_NAME = "Attack_Speed";
+
+    private WaitForSeconds kWAIT = new WaitForSeconds(1f);
+
     public override void DisposeObject()
     {
+        ResetObject();
+        PoolManager.Instance.Push<IGBaseCharacter>(this);
+    }
+
+    public virtual void ResetObject()
+    {
         StopAllCoroutines();
-        PoolManager.Instance.Push<IGBaseCharacter>();
+        m_Animator.Rebind();
+        m_Animator.SetFloat(kATTACK_SPEED_NAME, 1.0f);
+        m_CurrentAction = kACTION.Idle;
+        m_IsEndIdle = false;
+        
+        foreach (var item in m_Animator.parameters)
+        {
+            if (item.type == AnimatorControllerParameterType.Trigger)
+            {
+                m_Animator.ResetTrigger(item.name);
+            }
+        }
     }
 
     public virtual void InitObject(CharacterData characterData)
@@ -52,6 +83,11 @@ public class IGBaseCharacter : NObject
         m_SpriteOfCharacter.sprite = UtillManager.Instance.GetSprite(characterData.CARD_IMG);
 
         base.Show();
+        if (m_Actions == null || m_Actions.Count == 0)
+            return;
+
+        UpdateAttackSpeed(m_AttackSpeed);
+        
         StartCoroutine();
     }
 
@@ -67,6 +103,8 @@ public class IGBaseCharacter : NObject
         while (true)
         {
             yield return StartCoroutine(m_CurrentAction.ToString());
+
+            yield return new WaitUntil(() => { if (PlayManager.Instance.canTimeFlow) return true; return false; } );
             m_CurrentAction = (kACTION)m_Actions[m_ActionNum].ACTION;
             PlusActionNum();
         }
@@ -74,33 +112,72 @@ public class IGBaseCharacter : NObject
 
     public virtual IEnumerator Idle()
     {
+        m_Animator.SetTrigger(kANIM_TRIGGER.Idle.ToString());
+        
         Debug.Log(m_CharacterData.CARD_IMG + ": Idle");
         yield return new WaitForSeconds(1f);
         m_ActionNum = 0;
+        m_IsEndIdle = true;
     }
 
     public virtual IEnumerator Attack()
     {
+        m_Animator.SetTrigger(kANIM_TRIGGER.Attack.ToString());
         Debug.Log(m_CharacterData.CARD_IMG + ": Attack");
-        yield return new WaitForSeconds(1f);
+        yield return kWAIT;
+        AttackDamage(m_Damage);
+        yield return kWAIT;
+        m_Animator.ResetTrigger(kANIM_TRIGGER.Attack.ToString());
     }
 
     public virtual IEnumerator Skill_1()
     {
+        m_Animator.SetTrigger(kANIM_TRIGGER.Skill.ToString());
         Debug.Log(m_CharacterData.CARD_IMG + ": Skill_1");
-        yield return new WaitForSeconds(1f);
+        yield return kWAIT;
+
+        yield return kWAIT;
+        m_Animator.ResetTrigger(kANIM_TRIGGER.Skill.ToString());
     }
     
     public virtual IEnumerator Skill_2()
     {
+        m_Animator.SetTrigger(kANIM_TRIGGER.Buff.ToString());
         Debug.Log(m_CharacterData.CARD_IMG + ": Skill_2");
-        yield return new WaitForSeconds(1f);
+        yield return kWAIT;
+
+        yield return kWAIT;
+        m_Animator.ResetTrigger(kANIM_TRIGGER.Buff.ToString());
     }
 
     public virtual IEnumerator Special()
     {
+        m_Animator.SetTrigger(kANIM_TRIGGER.Skill.ToString());
         Debug.Log(m_CharacterData.CARD_IMG + ": Special");
-        yield return new WaitForSeconds(1f);
+        yield return kWAIT;
+
+        yield return kWAIT;
+        m_Animator.ResetTrigger(kANIM_TRIGGER.Skill.ToString());
+    }
+
+    public virtual void AttackDamage(int damage)
+    {
+        PlayManager.Instance.AttackBoss(damage, m_CharacterData.INDEX, ParticleManager.kPARTICLE.PTHIT_1);
+    }
+
+    public virtual void UpdateAttackSpeed(float speed)
+    {
+        m_Animator.SetFloat(kATTACK_SPEED_NAME, speed);
+        kWAIT = new WaitForSeconds(0.5f / speed);
+    }
+
+    protected void PlusActionNum(int num = 1)
+    {
+        m_ActionNum += num;
+        if (m_ActionNum >= m_Actions.Count)
+        {
+            m_ActionNum -= m_Actions.Count;
+        }
     }
 
     public virtual int CalculateDeal()
@@ -118,17 +195,5 @@ public class IGBaseCharacter : NObject
         return 0;
     }
 
-    public virtual void DamageDealing()
-    {
-
-    }
-
-    protected void PlusActionNum(int num = 1)
-    {
-        m_ActionNum += num;
-        if (m_ActionNum >= m_Actions.Count)
-        {
-            m_ActionNum -= m_Actions.Count;
-        }
-    }
+    public bool isEndIdle { get { return m_IsEndIdle; } }
 }
