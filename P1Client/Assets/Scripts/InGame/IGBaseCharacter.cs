@@ -48,6 +48,8 @@ public class IGBaseCharacter : NObject
 
     private WaitForSeconds kWAIT = new WaitForSeconds(1f);
 
+    private List<SynergyUpgradeData> m_ListOfBuff = new List<SynergyUpgradeData>();
+
     public override void DisposeObject()
     {
         ResetObject();
@@ -61,7 +63,7 @@ public class IGBaseCharacter : NObject
         m_Animator.SetFloat(kATTACK_SPEED_NAME, 1.0f);
         m_CurrentAction = kACTION.Idle;
         m_IsEndIdle = false;
-        
+
         foreach (var item in m_Animator.parameters)
         {
             if (item.type == AnimatorControllerParameterType.Trigger)
@@ -125,7 +127,7 @@ public class IGBaseCharacter : NObject
         m_Animator.SetTrigger(kANIM_TRIGGER.Attack.ToString());
         Debug.Log(m_CharacterData.CARD_IMG + ": Attack");
         yield return kWAIT;
-        AttackDamage(m_Damage);
+        AttackAction();
         yield return kWAIT;
         m_Animator.ResetTrigger(kANIM_TRIGGER.Attack.ToString());
     }
@@ -160,9 +162,9 @@ public class IGBaseCharacter : NObject
         m_Animator.ResetTrigger(kANIM_TRIGGER.Skill.ToString());
     }
 
-    public virtual void AttackDamage(int damage)
+    public virtual void AttackDamage(int damage, bool isCrit)
     {
-        PlayManager.Instance.AttackBoss(damage, m_CharacterData.INDEX, ParticleManager.kPARTICLE.PTHIT_1);
+        PlayManager.Instance.AttackBoss(damage, m_CharacterData.INDEX, isCrit, ParticleManager.kPARTICLE.PTHIT_1);
     }
 
     public virtual void UpdateAttackSpeed(float speed)
@@ -180,9 +182,55 @@ public class IGBaseCharacter : NObject
         }
     }
 
+    public virtual void AttackAction()
+    {
+        var deal = CalculateDeal();
+        var crit = CalculateCritical();
+
+        if (GachaManager.Instance.CheckedRandomRange(crit))
+        {
+            AttackDamage(deal * 2, true);
+        }
+        else 
+        {
+            AttackDamage(deal, false);
+        }
+
+        //TODO:: 추가공격.
+
+    }
+
+    public virtual void SkillOneAction()
+    {
+
+    }
+
+    public virtual void SkillTwoAction()
+    {
+
+    }
+
+    public virtual void SpecialAction()
+    {
+
+    }
+
     public virtual int CalculateDeal()
     {
-        return 0;
+        float tmp = m_Damage;
+        SynergyManager.Instance.GetUpgradeSynergyDataWithType(SynergyUpgradeData.kTYPE.ATTACK_POWER)?.ForEach(data => 
+        {
+            tmp *= (1f + data);
+        });
+        
+        m_ListOfBuff?.ForEach(data => 
+        {
+            tmp *= (1f + data.RATE);
+        });
+
+        //TODO:: 버프 + 값.
+
+        return Mathf.FloorToInt(tmp);
     }
 
     public virtual float CalculateSpeed()
@@ -192,7 +240,7 @@ public class IGBaseCharacter : NObject
 
     public virtual float CalculateCritical()
     {
-        return 0;
+        return m_Critical;
     }
 
     public bool isEndIdle { get { return m_IsEndIdle; } }

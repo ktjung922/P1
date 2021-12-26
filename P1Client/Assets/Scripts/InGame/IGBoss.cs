@@ -30,7 +30,7 @@ public class IGBoss : NObject
         base.Show();
     }
 
-    public void Demaged(int damage, int charIndex, ParticleManager.kPARTICLE paticle = ParticleManager.kPARTICLE.None)
+    public void Demaged(int damage, int charIndex, bool isCrit, ParticleManager.kPARTICLE paticle = ParticleManager.kPARTICLE.None)
     {
         if (paticle != ParticleManager.kPARTICLE.None)
         {

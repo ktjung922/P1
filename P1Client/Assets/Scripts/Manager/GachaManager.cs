@@ -54,4 +54,16 @@ public class GachaManager : SingletonGameObject<GachaManager>
 
         return characterData[-1];
     }
+
+    public bool CheckedRandomRange(float f)
+    {
+        var trunFloat = Mathf.Floor(f * 100) * 0.01f;
+        int random = Random.Range(0, 1001);
+        float fRandom = random * 0.1f;
+
+        if(f >= fRandom)
+            return true;
+        else
+            return false;
+    }
 }

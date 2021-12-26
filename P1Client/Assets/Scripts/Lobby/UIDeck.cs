@@ -138,6 +138,8 @@ public class UIDeck : NLayer
         if (deckData.Contains(characterData))
         {
             deckData.Remove(characterData);
+            var list = characterData.ELEMENTAL.FindAll(foundData => foundData.Given == true);
+            list?.ForEach(data => characterData.ELEMENTAL.Remove(data));
             UpdateSynergyDataInPlayManager(characterData, true);
         }
         else

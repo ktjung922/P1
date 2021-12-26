@@ -19,6 +19,8 @@ public class UIInGame : NLayer
 
     private int   m_RemainTime;
 
+    private int kLIMIT_TIME = 60;
+
     public override void DisposeObject()
     {
         base.DisposeObject();
@@ -36,11 +38,15 @@ public class UIInGame : NLayer
 
     public override void Hide()
     {
+        m_RemainTime = kLIMIT_TIME;
+        m_TextOfTime.text = m_RemainTime.ToString();
         base.Hide();
     }
 
     public override void Show()
     {
+        m_RemainTime = kLIMIT_TIME;
+        m_TextOfTime.text = m_RemainTime.ToString();
         base.Show();
     }
 
@@ -55,9 +61,8 @@ public class UIInGame : NLayer
 
     private IEnumerator TimeCheck()
     {
-        m_RemainTime = 10;
+        m_RemainTime = kLIMIT_TIME;
         m_Tic = 0f;
-        m_TextOfTime.text = m_RemainTime.ToString();
 
         while (m_RemainTime > 0)
         {

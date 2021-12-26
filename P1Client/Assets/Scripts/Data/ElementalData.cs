@@ -27,6 +27,8 @@ public sealed class ElementalData
     }
 
     public kTYPE SYNERGY;
+
+    public bool Given;
     
     public bool isGiveSynergyType()
     {

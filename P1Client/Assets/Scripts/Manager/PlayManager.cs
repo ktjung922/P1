@@ -140,19 +140,54 @@ public class PlayManager : SingletonGameObject<PlayManager>
             var count = isDelete ? preCount : curCount;
 
             UpdateSynergy(m_DicOfGiveSynergy[target.SYNERGY], isDelete, count);
+            GiveSynergy(isDelete, m_DicOfGiveSynergy[target.SYNERGY]);
         }
 
         if (m_DicOfSynergy.ContainsKey(ElementalData.kTYPE.SwimmingPool) && target.SYNERGY != ElementalData.kTYPE.SwimmingPool)
         {
-            UpdateSynergy(ElementalData.kTYPE.Water, true, preCount);
-            UpdateSynergy(ElementalData.kTYPE.Water, false, curCount);
+            UpdateSynergy(ElementalData.kTYPE.Water, isDelete, 1);
+            if (!isDelete)
+            {
+                GiveSynergy(isDelete, ElementalData.kTYPE.Water);
+            }
         }
 
         if (m_DicOfSynergy.ContainsKey(ElementalData.kTYPE.Attractive) && target.SYNERGY != ElementalData.kTYPE.Attractive)
         {
-            UpdateSynergy(ElementalData.kTYPE.Love, true, preCount);
-            UpdateSynergy(ElementalData.kTYPE.Love, false, curCount);
+            UpdateSynergy(ElementalData.kTYPE.Love, isDelete, 1);
+            if (!isDelete)
+            {
+                GiveSynergy(isDelete, ElementalData.kTYPE.Love);
+            }
         }
+
+        m_ListOfDeckCharacter.ForEach(data => {data.ELEMENTAL.ForEach(ff => {Debug.Log(ff.SYNERGY + " / " + ff.Given); }); });
+    }
+
+    private void GiveSynergy(bool isDelete, ElementalData.kTYPE type)
+    {
+        m_ListOfDeckCharacter.ForEach(data => 
+        {
+            if (isDelete)
+            {
+                var result = data.ELEMENTAL.Find(foundData => foundData.SYNERGY == type);
+                if (result != null && result.Given == true)
+                {
+                    data.ELEMENTAL.Remove(result);
+                }
+            }
+            else
+            {
+                var result = data.ELEMENTAL.Find(foundData => foundData.SYNERGY == type);
+                if (result == null)
+                {
+                    var tmp = new ElementalData();
+                    tmp.SYNERGY = type;
+                    tmp.Given = true;
+                    data.ELEMENTAL.Add(tmp);
+                }
+            }
+        });
     }
 
 #endregion Deck.
@@ -167,6 +202,7 @@ public class PlayManager : SingletonGameObject<PlayManager>
         PlayBG.gameObject.SetActive(true);
         m_IsAllCharacterInit = false;
 
+        SynergyManager.Instance.UpdateSynergy();
         InitPlay();
     }
 
@@ -225,12 +261,12 @@ public class PlayManager : SingletonGameObject<PlayManager>
         return result;
     }
 
-    public void AttackBoss(int damage, int charIndex, ParticleManager.kPARTICLE particle = ParticleManager.kPARTICLE.None)
+    public void AttackBoss(int damage, int charIndex, bool isCrit, ParticleManager.kPARTICLE particle = ParticleManager.kPARTICLE.None)
     {
         if (m_Boss == null)
             return;
         
-        m_Boss.Demaged(damage, charIndex, particle);
+        m_Boss.Demaged(damage, charIndex, isCrit, particle);
     }
 
 #endregion Play.
