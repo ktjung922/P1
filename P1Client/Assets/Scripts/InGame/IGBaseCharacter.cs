@@ -36,6 +36,8 @@ public class IGBaseCharacter : NObject
 
     protected float m_Critical;
 
+    protected float m_Nodap;
+
     protected CharacterData m_CharacterData;
 
     protected List<ActionPatternData> m_Actions;
@@ -54,6 +56,14 @@ public class IGBaseCharacter : NObject
     {
         ResetObject();
         PoolManager.Instance.Push<IGBaseCharacter>(this);
+    }
+
+    private void Update() 
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            UpdateAttackSpeed(2f);
+        }
     }
 
     public virtual void ResetObject()
@@ -75,12 +85,13 @@ public class IGBaseCharacter : NObject
 
     public virtual void InitObject(CharacterData characterData)
     {
-        m_Damage = characterData.DEMAGE;
-        m_AttackSpeed = characterData.ATTACK_SPEED;
-        m_Critical = characterData.CRTICAL;
-
         m_CharacterData = characterData;
         m_Actions = m_CharacterData.ACTION_PATTERN;
+
+        SetDamage();
+        SetSpeed();
+        m_Critical = characterData.CRTICAL;
+        m_Nodap = characterData.NO_DAP;
 
         m_SpriteOfCharacter.sprite = UtillManager.Instance.GetSprite(characterData.CARD_IMG);
 
@@ -89,7 +100,6 @@ public class IGBaseCharacter : NObject
             return;
 
         UpdateAttackSpeed(m_AttackSpeed);
-        
         StartCoroutine();
     }
 
@@ -137,7 +147,6 @@ public class IGBaseCharacter : NObject
         m_Animator.SetTrigger(kANIM_TRIGGER.Skill.ToString());
         Debug.Log(m_CharacterData.CARD_IMG + ": Skill_1");
         yield return kWAIT;
-
         yield return kWAIT;
         m_Animator.ResetTrigger(kANIM_TRIGGER.Skill.ToString());
     }
@@ -218,10 +227,6 @@ public class IGBaseCharacter : NObject
     public virtual int CalculateDeal()
     {
         float tmp = m_Damage;
-        SynergyManager.Instance.GetUpgradeSynergyDataWithType(SynergyUpgradeData.kTYPE.ATTACK_POWER)?.ForEach(data => 
-        {
-            tmp *= (1f + data);
-        });
         
         m_ListOfBuff?.ForEach(data => 
         {
@@ -241,6 +246,48 @@ public class IGBaseCharacter : NObject
     public virtual float CalculateCritical()
     {
         return m_Critical;
+    }
+
+    protected void SetDamage()
+    {
+        float tmp = m_CharacterData.DEMAGE;
+        SynergyManager.Instance.GetUpgradeSynergyDataWithType(SynergyUpgradeData.kTYPE.ATTACK_POWER)?.ForEach(data => 
+        {
+            var synergyData = m_CharacterData.ELEMENTAL.Find(synergy => (int)synergy.SYNERGY == data.Item1.INDEX);
+            if (synergyData == null)
+                return;
+            
+            tmp *= (1 + data.Item2);
+        });
+        m_Damage = Mathf.FloorToInt(tmp);
+    }
+
+    protected void SetSpeed()
+    {
+        float tmp = 0f;
+        SynergyManager.Instance.GetUpgradeSynergyDataWithType(SynergyUpgradeData.kTYPE.ATTACK_SPEED)?.ForEach(data =>
+        {
+            var synergyData = m_CharacterData.ELEMENTAL.Find(synergy => (int)synergy.SYNERGY == data.Item1.INDEX);
+            if (synergyData == null)
+                return;
+            
+            tmp += data.Item2;
+            Debug.Log(data.Item2 + "추가.");
+        });
+        tmp = m_CharacterData.ATTACK_SPEED * (1 + tmp);
+
+        m_AttackSpeed = Mathf.Floor(tmp * 1000) * 0.001f;
+        Debug.Log(m_AttackSpeed);
+    }
+
+    protected void SetCritical()
+    {
+
+    }
+
+    protected void SetNodap()
+    {
+
     }
 
     public bool isEndIdle { get { return m_IsEndIdle; } }

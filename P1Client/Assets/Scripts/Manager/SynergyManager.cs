@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using NodapParty;
 
 public class SynergyManager : SingletonGameObject<SynergyManager>
 {
-    private Dictionary<SynergyUpgradeData.kTYPE, List<float>> m_DicOfSynergy = new Dictionary<SynergyUpgradeData.kTYPE, List<float>>();
+    private Dictionary<SynergyUpgradeData.kTYPE, List<Tuple<SynergyData, float>>> m_DicOfSynergy = new Dictionary<SynergyUpgradeData.kTYPE, List<Tuple<SynergyData, float>>>();
 
     public void UpdateSynergy()
     {
@@ -25,18 +26,20 @@ public class SynergyManager : SingletonGameObject<SynergyManager>
 
             if (m_DicOfSynergy.ContainsKey(upgradeData.TYPE))
             {
-                m_DicOfSynergy[upgradeData.TYPE].Add(upgradeData.RATE);
+                var tuple = new Tuple<SynergyData, float>(synergyData, upgradeData.RATE);
+                m_DicOfSynergy[upgradeData.TYPE].Add(tuple);
             }
             else
             {
-                var newList = new List<float>();
-                newList.Add(upgradeData.RATE);
+                var newList = new List<Tuple<SynergyData, float>>();
+                var tuple = new Tuple<SynergyData, float>(synergyData, upgradeData.RATE);
+                newList.Add(tuple);
                 m_DicOfSynergy.Add(upgradeData.TYPE, newList);
             }
         }
     }
 
-    public List<float> GetUpgradeSynergyDataWithType(SynergyUpgradeData.kTYPE type)
+    public List<Tuple<SynergyData, float>> GetUpgradeSynergyDataWithType(SynergyUpgradeData.kTYPE type)
     {
         if (!m_DicOfSynergy.ContainsKey(type))
             return null;
