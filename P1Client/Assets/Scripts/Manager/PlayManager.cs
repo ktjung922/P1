@@ -62,6 +62,11 @@ public class PlayManager : SingletonGameObject<PlayManager>
 
     public void ClearDeckData()
     {
+        m_ListOfDeckCharacter.ForEach(characterData => 
+        {
+            var list = characterData.ELEMENTAL.FindAll(foundData => foundData.Given == true);
+            list?.ForEach(data => characterData.ELEMENTAL.Remove(data));
+        });
         m_ListOfDeckCharacter.Clear();
         m_DicOfSynergy.Clear();
     }
