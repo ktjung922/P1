@@ -56,7 +56,7 @@ public sealed class CharacterData
 
     public float ATTACK_SPEED;
 
-    public int CRTICAL;
+    public float CRITICAL;
 
     public int NO_DAP;
 

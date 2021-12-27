@@ -15,7 +15,11 @@ public class SynergyUpgradeData
         ARMOR_BREAK,
         ADDITIONAL_DEMAGE,
         GIVE_SYNERGY,
-        CHABGE_Skill_2,
+        CHANGE_SKILL_2,
+        DEFANSIVE_IGNORE,
+        UP_CHARGING_SPECIAL,
+        CRITICAL,
+        MORE_SPECIAL
     }
 
     public kTYPE TYPE;

@@ -36,7 +36,7 @@ public class IGBaseCharacter : NObject
 
     protected float m_Critical;
 
-    protected float m_Nodap;
+    protected int m_Nodap;
 
     protected CharacterData m_CharacterData;
 
@@ -90,8 +90,8 @@ public class IGBaseCharacter : NObject
 
         SetDamage();
         SetSpeed();
-        m_Critical = characterData.CRTICAL;
-        m_Nodap = characterData.NO_DAP;
+        SetCritical();
+        SetNodap();
 
         m_SpriteOfCharacter.sprite = UtillManager.Instance.GetSprite(characterData.CARD_IMG);
 
@@ -228,12 +228,13 @@ public class IGBaseCharacter : NObject
     {
         float tmp = m_Damage;
         
+        // 자가 버프.
         m_ListOfBuff?.ForEach(data => 
         {
             tmp *= (1f + data.RATE);
         });
 
-        //TODO:: 버프 + 값.
+        //TODO:: 버브 버프 + 값.
 
         return Mathf.FloorToInt(tmp);
     }
@@ -272,22 +273,41 @@ public class IGBaseCharacter : NObject
                 return;
             
             tmp += data.Item2;
-            Debug.Log(data.Item2 + "추가.");
         });
         tmp = m_CharacterData.ATTACK_SPEED * (1 + tmp);
 
         m_AttackSpeed = Mathf.Floor(tmp * 1000) * 0.001f;
-        Debug.Log(m_AttackSpeed);
     }
 
     protected void SetCritical()
     {
+        float tmp = 0f;
+        SynergyManager.Instance.GetUpgradeSynergyDataWithType(SynergyUpgradeData.kTYPE.CRITICAL)?.ForEach(data =>
+        {
+            var synergyData = m_CharacterData.ELEMENTAL.Find(synergy => (int)synergy.SYNERGY == data.Item1.INDEX);
+            if (synergyData == null)
+                return;
+            
+            tmp += data.Item2;
+        });
+        tmp = m_CharacterData.CRITICAL * (1 + tmp);
 
+        m_Critical = Mathf.Floor(tmp * 1000) * 0.001f;
     }
 
     protected void SetNodap()
     {
+        int tmp = m_CharacterData.NO_DAP;
+        SynergyManager.Instance.GetUpgradeSynergyDataWithType(SynergyUpgradeData.kTYPE.NO_DAP)?.ForEach(data =>
+        {
+            var synergyData = m_CharacterData.ELEMENTAL.Find(synergy => (int)synergy.SYNERGY == data.Item1.INDEX);
+            if (synergyData == null)
+                return;
+            
+            tmp += (int)data.Item2;
+        });
 
+        m_Nodap = tmp;
     }
 
     public bool isEndIdle { get { return m_IsEndIdle; } }

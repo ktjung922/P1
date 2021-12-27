@@ -57,11 +57,11 @@ public class GachaManager : SingletonGameObject<GachaManager>
 
     public bool CheckedRandomRange(float f)
     {
-        var trunFloat = Mathf.Floor(f * 100) * 0.01f;
+        var trunFloat = Mathf.Floor(f * 1000) * 0.1f;
         int random = Random.Range(0, 1001);
         float fRandom = random * 0.1f;
 
-        if(f >= fRandom)
+        if(trunFloat >= fRandom)
             return true;
         else
             return false;
